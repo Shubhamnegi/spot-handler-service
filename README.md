@@ -10,5 +10,5 @@ Steps:
 - Mark target as sns for notification
 - Subscribe http call to service. Can depend on sqs as this might delay the request. 
 - Use notice api to confirm request and process notification
-- To enable kubectl on pod, allow access to context and kubectl from node  
+- To enable kubectl on pod, allow access to kube config from node and install kubectl on pod   
 
