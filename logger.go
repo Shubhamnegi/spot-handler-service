@@ -13,8 +13,8 @@ var Logger bunyan.Logger
 func registerLogger() {
 	name := "spot-interruption-service"
 	level := bunyan.LogLevelInfo
-	if os.Getenv("service-name") != "" {
-		name = os.Getenv("service-name")
+	if os.Getenv("SERVICE_NAME") != "" {
+		name = os.Getenv("SERVICE_NAME")
 	}
 	if os.Getenv("LOG_LEVEL") != "" {
 		name = os.Getenv("LOG_LEVEL")

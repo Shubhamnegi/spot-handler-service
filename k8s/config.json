@@ -1,0 +1,44 @@
+{
+    "autoConfig": true,
+    "version": "1.0.0",
+    "port": 8080,
+    "type": "ClusterIP",
+    "environment": [
+        {
+            "name": "AWS_ACCESS_KEY_ID",
+            "valueFrom": {
+                "secretKeyRef": {
+                    "name": "limetray-aws-readonly",
+                    "key": "key"
+                }
+            }
+        },
+        {
+            "name": "AWS_SECRET_ACCESS_KEY",
+            "valueFrom": {
+                "secretKeyRef": {
+                    "name": "limetray-aws-readonly",
+                    "key": "secret"
+                }
+            }
+        },
+        {
+            "name": "AWS_REGION",
+            "valueFrom": {
+                "secretKeyRef": {
+                    "name": "limetray-aws-readonly",
+                    "key": "region"
+                }
+            }
+        },
+        {
+            "name": "KUBECTL_CONFIG",
+            "value": "/var/lib/kubelet/kubeconfig"
+        }
+    ],
+    "tier": "backend",
+    "owner": "shubham nego",
+    "labels": {
+        "group": "infra"
+    }
+}

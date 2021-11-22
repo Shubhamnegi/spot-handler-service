@@ -58,10 +58,12 @@ func (n Notice) ExecuteDrain(hostname string) {
 		n.GetInstanceAction()))
 
 	context := ""
-	if os.Getenv("KUBECTL_CONTEXT") != "" {
-		context = os.Getenv("KUBECTL_CONTEXT")
+	if os.Getenv("KUBECTL_CONFIG") != "" {
+		context = os.Getenv("KUBECTL_CONFIG")
 	}
-	command := fmt.Sprintf("kubectl --context=%s  drain %s", context, hostname)
+	
+	// kubectl --kubeconfig /var/lib/kubelet/kubeconfig drain node_name
+	command := fmt.Sprintf("kubectl --kubeconfig %s  drain %s", context, hostname)
 	// command := "sleep 10 && echo 'done'"
 	Logger.Info("executing:" + command)
 	cmd := exec.Command("bash", "-c", command)
