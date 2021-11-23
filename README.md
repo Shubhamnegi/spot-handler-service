@@ -11,6 +11,7 @@ Steps:
 - Subscribe http call to service. Can depend on sqs as this might delay the request. 
 - Use notice api to confirm request and process notification
 - To enable kubectl on pod, allow access to kube config from node and install kubectl on pod   
+- Shedule pod on ondemand machine
 
 
 # Sample deployment yaml

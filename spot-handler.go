@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 
+	"Shubhamnegi/spot-handler-service/notification"
 	"os/exec"
 	"strings"
 	"time"
@@ -57,21 +58,28 @@ func (n Notice) ExecuteDrain(hostname string) {
 		n.GetRequestId(),
 		n.GetInstanceAction()))
 
-	context := ""
+	kubeConfig := "/var/lib/kubelet/kubeconfig"
 	if os.Getenv("KUBECTL_CONFIG") != "" {
-		context = os.Getenv("KUBECTL_CONFIG")
+		kubeConfig = os.Getenv("KUBECTL_CONFIG")
 	}
-	
+
 	// kubectl --kubeconfig /var/lib/kubelet/kubeconfig drain node_name
-	command := fmt.Sprintf("kubectl --kubeconfig %s  drain %s", context, hostname)
+	command := fmt.Sprintf("kubectl --kubeconfig %s  drain %s", kubeConfig, hostname)
 	// command := "sleep 10 && echo 'done'"
 	Logger.Info("executing:" + command)
-	cmd := exec.Command("bash", "-c", command)
+	notification.Notify(fmt.Sprintf(
+		"Executing Command: %s\nRequested for instance id: %s\nRequest id %s",
+		command,
+		n.GetInstanceId(),
+		n.GetRequestId(),
+	))
+	cmd := exec.Command("sh", "-c", command)
 	if err := cmd.Start(); err != nil {
 		Logger.Error(err.Error())
 		return
 	}
 	pid := cmd.Process.Pid
+
 	Logger.Info("Command running with pid: " + strconv.Itoa(pid))
 	go func() {
 		err := cmd.Wait()
